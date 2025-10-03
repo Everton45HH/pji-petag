@@ -1,0 +1,109 @@
+body{
+    background-color: #00d5ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #9cd3de;
+    width: 100vw;
+    max-width: 65%;
+    height: 86vh;
+    border-radius: 10px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+}
+
+.login{
+    width: 40%;
+    height: 86vh;
+    margin: auto auto;
+    padding: 10px;
+    display: flex  ;
+    flex-direction: column;
+    align-items: center;
+    gap: 4vh;
+}
+
+.logo{
+    border-radius: 100%;
+    width: 9.8vw;
+    height: 160px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.login_box {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    width: 70%;
+    padding: 10%;
+    gap: 1.5px;
+}
+
+.login_box input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    height: 40px;
+    font-size: 16px;
+    background-color:  #e6ebec;
+}
+
+.social_login{
+    display: block;
+    flex-wrap: nowrap;
+}
+.label {
+    color: black;
+}
+
+
+.cadastro {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.cadastro a {
+    color: #0095ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.cadastro a:hover {
+    text-decoration: underline;
+}
+
+.animal_img{
+    width: 73vh;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+button:hover {
+    background-color: #9cd667;
+}
+
+i{
+    font-size: 30px;
+    font-style: normal; 
+    margin: 0px 10px;
+}
+
+.errorMessage{
+    color: red;
+    margin: 0 auto;
+}
+/* RESPONSIVIDADE 852px é o limte para exprimir a tela , fazer tela para celular < 852px */
+
+.ou{
+    margin: 10px 0;
+    padding: 0;
+    /* GAMBIARRA :) */
+}
