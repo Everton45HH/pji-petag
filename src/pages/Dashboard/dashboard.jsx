@@ -1,13 +1,20 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import ActionButtons from '../../components/ActionButtons/ActionButtons';
 import DashboardCard from '../../components/DashboardCard/DashboardCard';
 import HeaderDashBoard from '../../components/HeaderDashBoard/HeaderDashBoard.jsx';
 import styles from '../../styles/dashboard.module.css';
-import '../../styles/dashboard.module.css';
-    
+
 export default function Dashboard() {
-  // Estado para dispositivos adicionados pelo usuário
-  const [devices, setDevices] = useState([]);
+
+  const userID = localStorage.getItem("userID");
+
+  
+  if (!userID) {
+    alert("Crie uma conta e faça login para acessar o dashboard.");
+    window.location.href = "/user/login";
+  }
+  
+  const [coleiras, setColeiras] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [newDevice, setNewDevice] = useState({
     name: '',
@@ -15,56 +22,62 @@ export default function Dashboard() {
     maxDistance: '',
     type: 'central'
   });
-
-  // Estado para coleiras (mantido para integração futura)
-  const [coleiras, setColeiras] = useState([]);
+  
   useEffect(() => {
-    const fetchColeiras = () => {
-      let userId = localStorage.getItem("userID");
-      if (!userId) {
-        userId = 1;
+    async function fetchColeiras() {
+      try {
+        console.log("ID da sessão:" + userID);
+        const res = await fetch(`http://127.0.0.1:5000/api/coleira/${userID}`);
+        const data = await res.json();
+        setColeiras(data);
+      } catch (error) {
+        console.error(error);
       }
-      fetch(`http://localhost:5000/api/coleira/${userId}`)
-        .then(res => res.json())
-        .then(data => setColeiras(data))
-        .catch(() => {});
-    };
+    }
+
     fetchColeiras();
     const interval = setInterval(fetchColeiras, 3000);
     return () => clearInterval(interval);
   }, []);
 
   const handleSettingsClick = (device) => {
-    console.log('Configurações para:', device.name);
+    console.log('Configurações para:', device.coleira);
   };
 
-  // Abrir formulário para adicionar dispositivo
   const handleAddDeviceClick = () => {
     setShowForm(true);
   };
 
-  // Atualizar campos do formulário
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setNewDevice(prev => ({ ...prev, [name]: value }));
   };
-
-  // Confirmar adição do dispositivo
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    if (!newDevice.name) return;
-    setDevices(prev => [
-      ...prev,
-      {
-        id: Date.now(),
-        ...newDevice
-      }
-    ]);
-    setShowForm(false);
-    setNewDevice({ name: '', distance: '', maxDistance: '', type: 'central' });
+const handleFormSubmit = async (e) => {
+  e.preventDefault();
+  const newColeira = {
+    nomeColeira: newDevice.name,
+    userID: userID,
+    distanciaMaxima: newDevice.maxDistance,
+    longitude: 0,
+    latitude: 0
   };
 
-  // Cancelar formulário
+
+  try {
+    await fetch("http://127.0.0.1:5000/api/coleira", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newColeira)
+    });
+    // eu sei ,mas nao sei como que ta pocando
+    setColeiras(prev => [...prev, newColeira]);
+    setShowForm(false);
+    setNewDevice({ name: '', distance: '', maxDistance: '', type: 'central' });
+  } catch (err) {
+    console.error("Erro ao criar coleira:", err);
+  }
+};
+
   const handleCancel = () => {
     setShowForm(false);
     setNewDevice({ name: '', distance: '', maxDistance: '', type: 'central' });
@@ -73,18 +86,14 @@ export default function Dashboard() {
   return (
     <>
       <HeaderDashBoard />
-      <main className={styles.dashboard} style={{ background: '#fff' }}>
-        <div className={styles['dashboard-header']}>
-          <h2 className={styles['dashboard-title']}>
-            Meus Dispositivos
-          </h2>
+      <main className={styles.dashboard} >
+          <h2 className={styles['dashboard-title']}>Meus Dispositivos</h2>
           <p className={styles['dashboard-subtitle']}>
             Monitore a localização dos seus pets em tempo real
           </p>
-        </div>
 
-        {/* Formulário inline para adicionar dispositivo */}
-        {showForm && (
+        <div className={styles.table}>
+          {showForm && (
           <form className={styles['device-form']} onSubmit={handleFormSubmit} style={{ marginBottom: 24 }}>
             <input
               type="text"
@@ -95,14 +104,7 @@ export default function Dashboard() {
               className={styles['device-input']}
               required
             />
-            <input
-              type="number"
-              name="distance"
-              placeholder="Distância"
-              value={newDevice.distance}
-              onChange={handleFormChange}
-              className={styles['device-input']}
-            />
+
             <input
               type="number"
               name="maxDistance"
@@ -111,24 +113,14 @@ export default function Dashboard() {
               onChange={handleFormChange}
               className={styles['device-input']}
             />
-            <select
-              name="type"
-              value={newDevice.type}
-              onChange={handleFormChange}
-              className={styles['device-input']}
-            >
-              <option value="central">Central</option>
-              <option value="collar">Coleira</option>
-            </select>
             <button type="submit" className={styles['device-btn']}>Adicionar</button>
             <button type="button" onClick={handleCancel} className={styles['device-btn']} style={{ background: '#ccc', color: '#222', marginLeft: 8 }}>Cancelar</button>
           </form>
         )}
 
-        {/* Grid de dispositivos só aparece se houver dispositivos */}
-        {devices.length > 0 && (
-          <div className={styles['devices-grid']}>
-            {devices.map((device) => (
+        {coleiras.length > 0 && (
+          <div className={styles['coleiras-grid']}>
+            {coleiras.map((device) => (
               <DashboardCard
                 key={device.id}
                 device={device}
@@ -138,22 +130,20 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Empty state se não houver dispositivos */}
-        {devices.length === 0 && (
+        {coleiras.length === 0 && (
           <div className={styles['empty-state']}>
             <div className={styles['empty-state-icon']}>📱</div>
-            <h3 className={styles['empty-state-title']}>
-              Nenhum dispositivo encontrado
-            </h3>
+            <h3 className={styles['empty-state-title']}>Nenhum dispositivo encontrado</h3>
             <p className={styles['empty-state-description']}>
               Adicione seu primeiro dispositivo para começar o rastreamento
             </p>
           </div>
         )}
 
+      </div>
+
         <div className={styles['action-buttons']}>
           <ActionButtons
-            onAddCentralDevice={handleAddDeviceClick}
             onAddCollar={handleAddDeviceClick}
           />
         </div>

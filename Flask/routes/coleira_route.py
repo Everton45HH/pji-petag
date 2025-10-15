@@ -30,37 +30,33 @@ def listColeiras(id):
         return jsonify({'message': erro_info['message']}), erro_info['status_code']
     return jsonify(lista), 200
 
-@coleira_bp.route('/api/coleira/<int:id>', methods=['DELETE'])
-def deleteColeira(id):
-
-    response, erro = delete_coleira(id)
+@coleira_bp.route('/api/coleira/<int:id_coleira>', methods=['DELETE'])
+def deleteColeira(id_coleira):
+    data = request.json
+    userID = data.get("userID")
+    response, erro = delete_coleira(id_coleira, userID)
     if erro:
         erro_info = ERRO.get(erro, {'message': 'Unknown error', 'status_code': 500})
         return jsonify({'message': erro_info['message']}), erro_info['status_code']
     
     return jsonify({'massage' : response}), 200
 
-# @coleira_bp.route('/devices/<int:id>', methods=['GET'])
-# def chosen_device(id):
-#     device_found, erro  = chosen_device_list(id)
-#     if erro:
-#         erro_info = ERRO.get(erro, {'message': 'Unknown error', 'status_code': 500})
-#         return jsonify({'message': erro_info['message']}), erro_info['status_code']
-#     return jsonify(device_found.to_dict()), 200
+@coleira_bp.route('/devices/<int:id_coleira>/coords', methods=['PATCH', 'PUT'])
+def updateCoords(id_coleira):
+    data = request.json
+    userID = data.get('userID')
+    response, erro = update_device_coords(id_coleira, data , userID)
+    if erro:
+        erro_info = ERRO.get(erro, {'message': 'Dados invalidos', 'status_code': 400})
+        return jsonify({'message': erro_info['message']}), erro_info['status_code']
+    return jsonify({'massage' : response}), 200
 
-# @coleira_bp.route('/devices/<int:id>', methods=['PATCH', 'PUT'])
-# def update(id):
-#     device, erro = update_device(id, request.json)
-#     if erro:
-#         erro_info = ERRO.get(erro, {'message': 'Unknown error', 'status_code': 500})
-#         return jsonify({'message': erro_info['message']}), erro_info['status_code']
-#     return jsonify(device.to_dict()), 200
-
-# @coleira_bp.route('/devices/<int:id>', methods=['DELETE'])
-# def delete(id):
-#     result, erro = delete_device(id)
-#     if erro:
-#         erro_info = ERRO.get(erro, {'message': 'Unknown error', 'status_code': 500})
-#         return jsonify({'message': erro_info['message']}), erro_info['status_code']
-#     if result:
-#         return "", 204
+@coleira_bp.route('/devices/<int:id_coleira>/settings', methods=['PATCH', 'PUT'])
+def updateSettings(id_coleira):
+    data = request.json
+    userID = data.get('userID')
+    response, erro = update_device_settings(id_coleira, data , userID)
+    if erro:
+        erro_info = ERRO.get(erro, {'message': 'Dados invalidos', 'status_code': 400})
+        return jsonify({'message': erro_info['message']}), erro_info['status_code']
+    return jsonify({'massage' : response}), 200

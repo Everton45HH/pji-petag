@@ -20,7 +20,8 @@ class UserDAO:
                 userID INTERGER ,
                 nomeColeira TEXT,
                 longitude REAL,
-                latitude REAL
+                latitude REAL,
+                distanciaMaxima REAL
             );''')
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS HistoricoCoordenadas (

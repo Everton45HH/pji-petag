@@ -11,4 +11,5 @@ app.register_blueprint(coleira_bp)
 CORS(app, origins=["http://localhost:5173"])
 
 if __name__ == '__main__':
+
     app.run(port=5000, debug=True)

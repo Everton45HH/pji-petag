@@ -1,5 +1,5 @@
 body{
-    background-color: #00d5ff;
+    background-color: #f7f7f7;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -86,16 +86,6 @@ body{
     border-radius: 10px;
 }
 
-button:hover {
-    background-color: #9cd667;
-}
-
-i{
-    font-size: 30px;
-    font-style: normal; 
-    margin: 0px 10px;
-}
-
 .errorMessage{
     color: red;
     margin: 0 auto;
@@ -106,4 +96,33 @@ i{
     margin: 10px 0;
     padding: 0;
     /* GAMBIARRA :) */
+}
+
+.senha_box {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #e8f0fe;
+}
+
+.button_eye {
+  position: absolute;
+  right: 1px;
+  top: 50%; 
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #444;
+  padding: 0;
+  outline: none;
+}
+
+button i{
+    font-size: 1vw ;
 }

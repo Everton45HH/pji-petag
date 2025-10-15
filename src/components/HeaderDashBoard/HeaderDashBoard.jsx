@@ -2,6 +2,13 @@ import { Menu, Search, User, Settings } from 'lucide-react';
 import styles from '../../styles/dashboard.module.css';
 
 export default function HeaderDashBoard({ onMenuClick, onSearchClick, onProfileClick }) {
+
+
+  function onProfileClick() {
+    localStorage.removeItem("userID");
+    window.location.href = "/user/login";
+  }
+
   return (
     <header className={styles.header}>
       <div className={styles['header-container']}>

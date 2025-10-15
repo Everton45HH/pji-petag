@@ -4,8 +4,16 @@ import logo from '../../assets/images/Logo.png';
 import { data, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
+
 export default function Login() {
     const navigate = useNavigate()
+
+    const [senhaVisivel, setSenhaVisivel] = useState(false);
+    const toggleSenhaVisivel = () => {
+        setSenhaVisivel(!senhaVisivel);
+    };
 
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
@@ -25,7 +33,6 @@ export default function Login() {
 
         if (response.ok) {
             localStorage.setItem("userID", data.userID);
-            console.log(localStorage)
             setErrorMassage("")
             navigate("/user/dashboard");
 
@@ -57,7 +64,17 @@ export default function Login() {
                         <input type="email" placeholder="Email" name="email" required onChange={(e) => setEmail(e.target.value)} />
 
                         <label htmlFor="senha" className={styles.label}>Senha:</label>
-                        <input type="password" placeholder="Senha" name="senha" required onChange={(e) => setSenha(e.target.value)}/>
+
+                        <div className={styles.senha_box}>
+                <input type={senhaVisivel ? "text" : "password"} placeholder="Senha" required value={senha} onChange={(e) => setSenha(e.target.value)} className={styles.input} />
+
+                <button type="button" onClick={toggleSenhaVisivel} className={styles.button_eye} aria-label={senhaVisivel ? "Ocultar senha" : "Mostrar senha"}>
+
+                    {senhaVisivel ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
+
+                </button>
+
+                </div>
 
                     <p>OU</p>
 

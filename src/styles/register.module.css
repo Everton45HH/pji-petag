@@ -90,10 +90,6 @@ body{
     border-radius: 10px;
 }
 
-button:hover {
-    background-color: #9cd667;
-}
-
 i{
     font-size: 30px;
     font-style: normal; 

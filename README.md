@@ -12,8 +12,9 @@ Oferecer uma solução tecnológica que auxilie tutores no monitoramento de seus
 ## Tecnologias Utilizadas
 - **Frontend:** React (com Vite)  
 - **Backend:** Flask (API REST)  
-- **Banco de Dados:** SQL  
+- **Banco de Dados:** SQLite
 - **Linguagens de Programação:** Python e JavaScript  
+- **Outras Tecnologias :** HTML , CSS
 
 ## Equipe
 - Everton Paulino  
@@ -25,33 +26,23 @@ Oferecer uma solução tecnológica que auxilie tutores no monitoramento de seus
 
 ## Como Usar
 
-
 - Baixe as dependências com 
-    - npm install 
+    - npm install
 
-- Crie 2 terminais:
+- Crie um terminal:
 
-    1° Terminal
+    Execute:
     - npm run dev
 
-    2° Terminal
-    - python Flask/app.py {Caminho pode variar no seu Dispositivo}
+
+# O programa irá abrir dois terminais no PowerShell , não se assute é apenas o back-end rodando!!!
 
 A aplicação é divida em 2 camnhos base:
 
-- http://localhost:5173/user/~
-- http://localhost:5000/api/~
-
-# NOTE ÀS PORTAS SÃO DIFERENTES!!!
+- http://localhost:5173/~
+- http://127.0.0.1:5000/~
 
 O primeiro caminho serve para a navegação da aplicação
-
 O segundo serve para consultas no banco de dados
 
-Exemplos
-
-http://localhost:5000/api/getAllUsers -> Retorna todos usuarios do banco de dados
-
-http://localhost:5000/api/user/1 -> Retorna o Usuario do ID = 1
-
-# CASO VOCÊ APAGUE O BANCO DE DADOS APENAS REINICIE O TERMINAL 2°
+Para simular os dados de uma coleira execute o arquivo gerador_de_coordenadas
