@@ -1,5 +1,7 @@
 import sqlite3
 
+from flask import json
+
 
 class UserDAO:
     def create_database(self):
@@ -64,7 +66,7 @@ class UserDAO:
         try:    
             cursor.execute("SELECT * FROM Usuario")
             rows = cursor.fetchall()
-            users = [{'userID': row[0], 'nome': row[1], 'telefone': row[2], 'email': row[3], 'senha': row[4]} for row in rows]
+            users = [{'userID': row[0], 'nome': row[1], 'telefone': row[2], 'email': row[3], 'senha': row[4].decode('utf-8')} for row in rows]
             if users:
                 return users, None
             else:
@@ -98,7 +100,7 @@ class UserDAO:
             cursor.execute("SELECT userID , nome , email , senha , telefone FROM Usuario WHERE email = ?", (email,))
             user = cursor.fetchone()
             if user:
-                user_dict = {'userID': user[0], 'nome': user[1], 'email': user[2], 'senha': user[3], 'telefone': user[4]}
+                user_dict = {'userID': user[0], 'nome': user[1], 'email': user[2], 'senha': user[3].decode('utf-8'), 'telefone': user[4]}
                 return user_dict, None
             else:
                 return None, "User not found"

@@ -1,13 +1,12 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required , get_jwt_identity
 from services.device_service import *
 from utils.error_messages import ERROR as ERRO
 
 coleira_bp = Blueprint('coleiras', __name__, url_prefix='')
 
-
 @coleira_bp.route('/api/coleira', methods=['POST'])
 def create():
-
     info = request.json
 
     for valor in info.values():
@@ -22,12 +21,20 @@ def create():
     return jsonify({'message': response}), 201
 
 @coleira_bp.route('/api/coleira/<int:id>', methods=['GET'])
+@jwt_required(locations=['cookies'])
 def listColeiras(id):
 
+    user = get_jwt_identity()
+
+    if not user:
+        return jsonify({'message': "Usuário não autenticado"}), 401
+    
     lista, erro = get_all_coleiras(id)
+
     if erro:
         erro_info = ERRO.get(erro, {'message': 'Unknown error', 'status_code': 500})
         return jsonify({'message': erro_info['message']}), erro_info['status_code']
+    
     return jsonify(lista), 200
 
 @coleira_bp.route('/api/coleira/<int:id_coleira>', methods=['DELETE'])

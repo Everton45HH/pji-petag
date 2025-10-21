@@ -2,8 +2,6 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -12,7 +10,6 @@
   z-index: 999;
   color: black;
 } 
-
 a {
   font-weight: 500;
   color: #646cff;
@@ -23,11 +20,14 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
+  background-color: #00d5ff;
+  justify-content: center;
   place-items: center;
-  min-width: 320px;
+  align-items: center;
   min-height: 100vh;
+  display: flex;
+  height: 100vh;
+  margin: 0;
 }
 
 h1 {
@@ -65,4 +65,20 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+
+/* AQUI EU COLOQUE O CSS PARA COISAS QUE VAZAM DE UMA PAGINA PARA OUTRA */
+/* ACHEI MAIS FACIL COLOCAR AQUI DO QUE DEIXAR MAL FEITO */
+
+i{
+    font-size: 30px;
+    font-style: normal; 
+    margin: 0px 10px;
+}
+
+i:hover{
+  color: #9cd3de;
+  transition: 0.2s;
 }

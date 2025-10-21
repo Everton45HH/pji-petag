@@ -12,13 +12,17 @@ const [nome, setNome] = useState("");
 const [telefone, setTelefone] = useState("");
 const [email, setEmail] = useState("");
 const [senha, setSenha] = useState("");
-const [errorMessage , setErrorMassage] = useState("")
+const [errorMessage , setErrorMessage] = useState("")
+const [senhaVisivel, setSenhaVisivel] = useState(false);
+const toggleSenhaVisivel = () => {
+  setSenhaVisivel(!senhaVisivel);
+};
 
 const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const response = await fetch("http://127.0.0.1:5000/user/register", {
+    const response = await fetch("http://localhost:5000/user/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nome, telefone, email, senha })
@@ -27,16 +31,16 @@ const handleSubmit = async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      setErrorMassage("")
+      setErrorMessage("")
       navigate("/user/login");
     } else {
       console.log(data.message);    
-      setErrorMassage(data.message)
+      setErrorMessage(data.message)
     }
     
   } catch (error) {
     console.log(data.message);    
-    setErrorMassage(data.message)
+    setErrorMessage(data.message)
   }
 };
 
@@ -61,9 +65,17 @@ const handleSubmit = async (e) => {
                   <label htmlFor="email">Email:</label>
                   <input type="email" required placeholder="Digite seu Email" name="email" onChange={(e) => setEmail(e.target.value)} />
 
+                  <label htmlFor="senha" className={styles.label}>Senha:</label>
 
-                  <label htmlFor="senha">Senha:</label>
-                  <input type="password" required placeholder="Digite sua Senha" name="senha" onChange={(e) => setSenha(e.target.value)} />
+                  <div className={styles.senha_box}>
+                                
+                    <input type={senhaVisivel ? "text" : "password"} placeholder="Senha" required value={senha} onChange={(e) => setSenha(e.target.value)} className={styles.input} />
+                    
+                      <button type="button" onClick={toggleSenhaVisivel} className={styles.button_eye} aria-label={senhaVisivel ? "Ocultar senha" : "Mostrar senha"}>
+                              {senhaVisivel ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
+                      </button>
+
+                  </div>
 
                   <p className={styles.ou}>OU</p>
                   
@@ -86,8 +98,9 @@ const handleSubmit = async (e) => {
                         cursor: "pointer"
                     }}
                     />
-          {/* Acredita em mim tem que ser desse jeito  :)*/}
 
+          {/* Acredita em mim tem que ser desse jeito  :)*/}
+    
                   <p className={styles.cadastro}>
                       Já tem uma conta? <a href="/user/login">Conecte-se</a>
                   </p>

@@ -20,7 +20,7 @@ if __name__ == '__main__':
     while True:
 
         coleira["latitude"] += random.uniform(-0.0001, 0.0001)
-        coleira["longitude"] += random.uniform(-0.0001, 0.0001)
+        coleira["longitude"] += random.uniform(-0.00001, 0.0001)
 
         try:
             response = requests.put(url, json=coleira)

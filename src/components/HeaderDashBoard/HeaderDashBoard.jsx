@@ -5,7 +5,23 @@ export default function HeaderDashBoard({ onMenuClick, onSearchClick, onProfileC
 
 
   function onProfileClick() {
-    localStorage.removeItem("userID");
+
+    
+    async function deleteCookie() {
+      try {
+        const res = await fetch(`http://127.0.0.1:5000/logout_with_cookies`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("Erro ao encerrar a sessão");
+      
+    } catch (error) {
+      console.error("Erro:", error);
+    }
+  }
+  deleteCookie()
+
     window.location.href = "/user/login";
   }
 

@@ -27,22 +27,33 @@ Oferecer uma solução tecnológica que auxilie tutores no monitoramento de seus
 ## Como Usar
 
 - Baixe as dependências com 
-    - npm install
-
+    - pip install -r requirements.txt
+    - npm intall
+    
 - Crie um terminal:
 
     Execute:
     - npm run dev
 
 
-# O programa irá abrir dois terminais no PowerShell , não se assute é apenas o back-end rodando!!!
+# O programa irá abrir dois terminais , um sendo no PowerShell , não se assute é apenas o back-end rodando!!!
 
-A aplicação é divida em 2 camnhos base:
+A aplicação é divida em 2 caminhos base:
 
 - http://localhost:5173/~
 - http://127.0.0.1:5000/~
 
 O primeiro caminho serve para a navegação da aplicação
+
+~/ -> Home do projeto , descrição do projeto
+~/user/login -> Logar
+~/user/register -> Criar Conta
+
 O segundo serve para consultas no banco de dados
 
+# *Essas rotas são consumidas pela aplicação não tente acessa-lás,sem cookies aplicados*
+~/api/coleira + POST -> Criar coleira
+~/api/coleira/id + GET  -> Mostra todas as coleiras do banco de dados relacionadas a um usuario
+
 Para simular os dados de uma coleira execute o arquivo gerador_de_coordenadas
+Forneça seu ID(Ta no banco de dados) e o ID da coleira (O ID se encontra no banco e no dashboard do seu usuario)

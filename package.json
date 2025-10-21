@@ -6,7 +6,7 @@
   "proxy": "http://localhost:5000",
   "scripts": {
     "dev": "concurrently -k \"npm:start-vite\" \"npm:start-flask\"",
-    "start-vite": "vite",
+    "start-vite": "vite --host",
     "start-flask": "start cmd /k python Flask/app.py",
     "build": "vite build",
     "lint": "eslint .",

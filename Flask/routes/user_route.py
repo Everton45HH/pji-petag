@@ -1,6 +1,11 @@
+from urllib import response
+from utils.error_messages import ERROR as ERRO
 from flask import Blueprint, request, jsonify
 from services.user_service import *
-from utils.error_messages import ERROR as ERRO
+
+from flask_jwt_extended import (create_access_token, get_jwt_identity, jwt_required , set_access_cookies , unset_jwt_cookies)
+
+from  app import bcrypt 
 
 users_bp = Blueprint('users', __name__, url_prefix='')
 
@@ -8,6 +13,10 @@ users_bp = Blueprint('users', __name__, url_prefix='')
 def create():
 
     info_body = request.json
+
+    senha = info_body['senha']
+
+    info_body['senha'] = bcrypt.generate_password_hash(password = senha)
 
     for campo , valor in info_body.items():
         if valor == "" or valor is None:
@@ -26,30 +35,49 @@ def create():
 
     return jsonify({'message': response}), 201
 
-@users_bp.route('/user/login' , methods=['POST'])
+@users_bp.route('/user/login', methods=['POST'])
 def login():
+    info_body = request.get_json()
 
-    info_body = request.json
+    if not info_body:
+        return jsonify({'message': "Requisição inválida"}), 400
 
-    for campo , valor in info_body.items():
-
+    for campo, valor in info_body.items():
         if valor == "" or valor is None:
-
             return jsonify({'message': "Não pode haver campos vazios"}), 400
-        
+
     email = info_body.get("email")
     senha = info_body.get("senha")
-    user , error = get_user_by_email(email)
 
-    if error:
+    user, erro = get_user_by_email(email)
+    if erro:
+        erro_info = ERRO.get(erro, {'message': 'Unknown error', 'status_code': 500})
+        return jsonify({'message': erro_info['message']}), erro_info['status_code']
+
+    if not user:
         return jsonify({"message": "Email não encontrado"}), 404
-    if user["senha"] == senha:
-        return jsonify({"message": "Login realizado com sucesso","userID":user["userID"]}), 200
+
+    if bcrypt.check_password_hash(user["senha"], senha):
+        aux = str(user['userID'])
+        access_token_cookie = str(create_access_token(identity=aux))
+        response = jsonify({"msg": "login successful"})
+        set_access_cookies(response, access_token_cookie, max_age=3600)
+        return response, 200
     else:
         return jsonify({"message": "Senha incorreta"}), 401
 
-# Se o insomia quiser fazer alguma ação que não envolva o front end(DELETE,PUT,etc) eu fiz de uma forma que ele mande direto para o back end
-# Se eu usar o mesmo caminho da requisiçaõ do front para o back ele vai dar conflito,pois o caminho do delete no front iria tenta carregar uma tela que nao existe
+@users_bp.route("/user/me", methods=["GET"])
+@jwt_required(locations="cookies")
+def user_info():
+    user_ID = get_jwt_identity()
+    return jsonify({"user_ID": user_ID}), 200
+
+
+@users_bp.route("/logout_with_cookies", methods=["GET"])
+def logout_with_cookies():
+    response = jsonify({"msg": "Logout successful"})
+    unset_jwt_cookies(response)
+    return response , 200
 
 
 @users_bp.route('/api/user/<int:id>', methods=['PATCH','PUT'])

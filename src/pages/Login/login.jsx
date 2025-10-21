@@ -6,7 +6,6 @@ import { useState } from 'react';
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-
 export default function Login() {
     const navigate = useNavigate()
 
@@ -17,33 +16,34 @@ export default function Login() {
 
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
-    const [errorMessage , setErrorMassage] = useState("")
+    const [errorMessage , setErrorMessage] = useState("")
 
     const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
         const response = await fetch("http://127.0.0.1:5000/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha })
+        body: JSON.stringify({ email, senha }),
+        credentials: "include",
         });
+
 
         const data = await response.json();
 
         if (response.ok) {
-            localStorage.setItem("userID", data.userID);
-            setErrorMassage("")
+
+            setErrorMessage("")
             navigate("/user/dashboard");
 
         } else {
         console.log(data.message);    
-        setErrorMassage(data.message)
+        setErrorMessage(data.message)
     }
     
     }catch (error) {
     console.log(error);
-    setErrorMassage("Erro ao conectar com o servidor");
+    setErrorMessage("Erro ao conectar com o servidor");
     }
     };
 
@@ -66,15 +66,16 @@ export default function Login() {
                         <label htmlFor="senha" className={styles.label}>Senha:</label>
 
                         <div className={styles.senha_box}>
-                <input type={senhaVisivel ? "text" : "password"} placeholder="Senha" required value={senha} onChange={(e) => setSenha(e.target.value)} className={styles.input} />
+                                
+                            <input type={senhaVisivel ? "text" : "password"} placeholder="Senha" required value={senha} onChange={(e) => setSenha(e.target.value)} className={styles.input} />
 
-                <button type="button" onClick={toggleSenhaVisivel} className={styles.button_eye} aria-label={senhaVisivel ? "Ocultar senha" : "Mostrar senha"}>
+                            <button type="button" onClick={toggleSenhaVisivel} className={styles.button_eye} aria-label={senhaVisivel ? "Ocultar senha" : "Mostrar senha"}>
 
-                    {senhaVisivel ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
+                                {senhaVisivel ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
 
-                </button>
+                            </button>
 
-                </div>
+                        </div>
 
                     <p>OU</p>
 
