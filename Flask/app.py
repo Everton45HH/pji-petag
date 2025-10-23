@@ -14,7 +14,7 @@ def create_app():
     app = Flask(__name__)
 
     app.config["JWT_SECRET_KEY"] = "paodebatata"
-    app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+    app.config["JWT_TOKEN_LOCATION"] = ["Cookies"]
     app.config["JWT_COOKIE_SECURE"] = False 
     app.config["JWT_ACCESS_COOKIE_PATH"] = "/"
     app.config["JWT_COOKIE_CSRF_PROTECT"] = False 
