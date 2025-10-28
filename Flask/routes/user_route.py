@@ -68,7 +68,7 @@ def login():
         return jsonify({"message": "Senha incorreta"}), 401
 
 @users_bp.route("/user/me", methods=["GET"])
-@jwt_required("cookies")
+@jwt_required(locations="cookies")
 def user_info():
     data = get_jwt_identity()
     return jsonify({"user_ID": data}), 200

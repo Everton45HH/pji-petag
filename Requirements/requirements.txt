@@ -1,0 +1,9 @@
+flask
+flask-jwt-extended
+flask-bcrypt
+flask-cors
+<<<<<<< HEAD:requirements.txt
+requests
+=======
+request
+>>>>>>> 620c452d5c92b45c08023349f4cfa032ea246c20:Requirements/requirements.txt
