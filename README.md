@@ -56,4 +56,4 @@ O segundo serve para consultas no banco de dados
 ~/api/coleira/id + GET  -> Mostra todas as coleiras do banco de dados relacionadas a um usuario
 
 Para simular os dados de uma coleira execute o arquivo gerador_de_coordenadas
-Forneça seu ID(Ta no banco de dados) e o ID da coleira (O ID se encontra no banco e no dashboard do seu usuario)
+Forneça seu ID(Ta no banco de dados) e o ID da coleira (O ID se encontra no banco e no  dashboard do seu usuario)

@@ -1,5 +1,5 @@
-from urllib import response
 from utils.error_messages import ERROR as ERRO
+# from urllib import request   , ,   nao sei o pq tava mas ta aqui
 from flask import Blueprint, request, jsonify
 from services.user_service import *
 
@@ -58,19 +58,20 @@ def login():
         return jsonify({"message": "Email não encontrado"}), 404
 
     if bcrypt.check_password_hash(user["senha"], senha):
+
         aux = str(user['userID'])
-        access_token_cookie = str(create_access_token(identity=aux))
-        response = jsonify({"msg": "login successful"})
-        set_access_cookies(response, access_token_cookie, max_age=3600)
-        return response, 200
+        access_token_cookie = create_access_token('1')
+        resposta = jsonify({"msg": "login successful"})
+        set_access_cookies(resposta, access_token_cookie)        
+        return resposta, 200
     else:
         return jsonify({"message": "Senha incorreta"}), 401
 
 @users_bp.route("/user/me", methods=["GET"])
-@jwt_required(locations="cookies")
+@jwt_required("cookies")
 def user_info():
-    user_ID = get_jwt_identity()
-    return jsonify({"user_ID": user_ID}), 200
+    data = get_jwt_identity()
+    return jsonify({"user_ID": data}), 200
 
 
 @users_bp.route("/logout_with_cookies", methods=["GET"])

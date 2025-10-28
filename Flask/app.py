@@ -15,8 +15,10 @@ def create_app():
 
     app.config["JWT_SECRET_KEY"] = "paodebatata"
     app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-    app.config["JWT_COOKIE_SECURE"] = False 
+    app.config["JWT_COOKIE_SECURE"] = False
+    app.config["JWT_COOKIE_SAMESITE"] = "None"
     app.config["JWT_ACCESS_COOKIE_PATH"] = "/"
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
     app.config["JWT_COOKIE_CSRF_PROTECT"] = False 
 
     bcrypt.init_app(app)
@@ -28,9 +30,15 @@ def create_app():
     from routes.coleira_route import coleira_bp
     app.register_blueprint(coleira_bp)
 
-    CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://127.0.0.1:5173"])
+    CORS(app, supports_credentials=True, origins=[
+    "http://localhost:5173",
+    "http://localhost",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1"
+])
+
 
     return app
 if __name__ == '__main__':
     app = create_app()
-    app.run(port=5000,debug=True , host='0.0.0.0')
+    app.run(port=5000,debug=True , host='localhost')

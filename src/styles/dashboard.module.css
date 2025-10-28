@@ -366,6 +366,7 @@ Reset e Base Styles
   background-color:whitesmoke;
   margin: 0 auto;
   width: 80%;
+  border-radius: 2%;
 }
 
 .table_devices{
@@ -381,3 +382,11 @@ Reset e Base Styles
   align-items: center;
   justify-content: center;
 }
+
+/* .newDeviceForm{ */
+  /* display: flex; */
+  /* position:relative; */
+  /* top: 0; */
+  /* transform: translateX(25%); */
+/*  */
+/* } */

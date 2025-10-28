@@ -23,16 +23,17 @@ useEffect(() => {
     try {
       const res = await fetch("http://127.0.0.1:5000/user/me", {
         method: "GET",
-        credentials : "include",
+        credentials : "include"
       });
 
       if (!res.ok) {
-        alert("Que tal fazer login? Missing Authorization Header");
-        window.location.href = "/user/login";
-        return;
+        // alert("Que tal fazer login? Missing Authorization Header");
+        // window.location.href = "/user/login";
+        console.log("NAO FUNFA")
       }
 
       const data = await res.json();
+      console.log("RAWDATA" , data)
       console.log("Usuário autenticado, UserID :", data.user_ID);
 
       setUserID(data.user_ID);
@@ -120,7 +121,7 @@ useEffect(() => {
 
         <div className={styles.table}>
           {showForm && (
-            <form onSubmit={handleFormSubmit} style={{ marginBottom: 24 }}>
+            <form onSubmit={handleFormSubmit} className={styles.newDeviceForm}>
               <input
                 type="text"
                 name="name"
