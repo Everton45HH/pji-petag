@@ -21,8 +21,7 @@ def create():
     return jsonify({'message': response}), 201
 
 @coleira_bp.route('/api/coleira/<int:id>', methods=['GET'])
-@jwt_required(locations=["Cookies"])
-@jwt_required()
+@jwt_required("cookies")
 def listColeiras(id):
     
     user = get_jwt_identity()
