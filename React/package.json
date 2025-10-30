@@ -3,27 +3,26 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "http://localhost:5000",
   "scripts": {
     "dev": "concurrently -k \"npm:start-vite\" \"npm:start-flask\"",
-    "start-vite": "vite --host",
-    "start-flask": "start cmd /k python Flask/app.py",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "start-vite": "vite --host",                          
+    "start-flask": "flask run --host=0.0.0.0 --port=5000",  
+    "build": "vite build",                                 
+    "lint": "eslint .",                                    
+    "preview": "vite preview"                              
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
     "haversine": "^1.1.1",
     "lucide-react": "^0.544.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^18.2.0",                                    
+    "react-dom": "^18.2.0",                               
     "react-router-dom": "^7.9.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
+    "@types/react": "^18.2.0",                             
+    "@types/react-dom": "^18.2.0",                         
     "@vitejs/plugin-react": "^4.4.1",
     "concurrently": "^9.2.1",
     "eslint": "^9.25.0",
