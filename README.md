@@ -28,6 +28,8 @@ Oferecer uma solução tecnológica que auxilie tutores no monitoramento de seus
 
 - Baixe as dependências com 
     - pip install -r requirements.txt
+    - npm install concurrently
+    - Recomendo baixar a extensão SQLite Viewer para ver os dados do banco pelo VSCode
     - npm intall
     
 - Crie um terminal:
